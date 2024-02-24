@@ -330,7 +330,13 @@ export default class TriggerApexTests {
             testOptions.synchronous == true ? true : false
         );
         let translatedTestLevel = TestLevel.RunSpecifiedTests;
-        let tests = testOptions.specifiedTests;
+        let testsArray: string[] = testOptions.specifiedTests.split(',');
+        let tests = '';
+        if (testOptions.sfppackage.packageName) {
+            testsArray = testsArray.map((test: string) => `${testOptions.sfppackage.packageName}.${test}`);
+            tests = testsArray.join(',');
+        }
+
         SFPLogger.log(`Tests to be executed: ${COLOR_KEY_MESSAGE(tests)}`, LoggerLevel.INFO, this.fileLogger);
         return { translatedTestLevel, tests };
     }
