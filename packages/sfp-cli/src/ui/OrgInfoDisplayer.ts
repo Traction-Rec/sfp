@@ -1,4 +1,4 @@
-import SFPLogger, { COLOR_HEADER, COLOR_KEY_VALUE, COLOR_KEY_MESSAGE, COLOR_TRACE } from "@flxblio/sfp-logger";
+import SFPLogger, { COLOR_HEADER, COLOR_KEY_VALUE, COLOR_KEY_MESSAGE, COLOR_TRACE } from "@flxbl-io/sfp-logger";
 import SFPOrg from "../core/org/SFPOrg";
 const Table = require("cli-table");
 import { LoggerLevel } from "@salesforce/core";
@@ -50,21 +50,21 @@ export default class OrgInfoDisplayer {
       LoggerLevel.INFO,
     );
     SFPLogger.log(
-      COLOR_TRACE(`cat ${scratchOrg.sfdxAuthUrl} > ./authfile`),
+      COLOR_TRACE(`echo ${scratchOrg.sfdxAuthUrl} > ./authfile`),
       LoggerLevel.INFO,
     );
     SFPLogger.log(
-      COLOR_TRACE(`sfdx auth sfdxurl store  --sfdxurlfile authfile`),
+      COLOR_TRACE(`sf org login sfdx-url --sfdx-url-file=authfile`),
       LoggerLevel.INFO,
     );
     SFPLogger.log(
-      COLOR_TRACE(`sfdx force org open  --u ${scratchOrg.username}`),
+      COLOR_TRACE(`sf org open --target-org=${scratchOrg.username}`),
       LoggerLevel.INFO,
     );
 
     SFPLogger.printHeaderLine('', COLOR_HEADER, LoggerLevel.INFO);
 
-   
+
 
 
     groupSection.end();
@@ -93,11 +93,11 @@ export default class OrgInfoDisplayer {
 
     fileOutputHandler.appendOutput(pathToMarkDownFile,
       `\n\nYou may use the following commands to authenticate to the org`,);
-    fileOutputHandler.appendOutput(pathToMarkDownFile, `\`\`\``);  
-    fileOutputHandler.appendOutput(pathToMarkDownFile, `cat ${scratchOrg.sfdxAuthUrl} > ./authfile`);
-    fileOutputHandler.appendOutput(pathToMarkDownFile, `sfdx auth sfdxurl store  --sfdxurlfile authfile`);
-    fileOutputHandler.appendOutput(pathToMarkDownFile, `sfdx force org open  --u ${scratchOrg.username}`);
-    fileOutputHandler.appendOutput(pathToMarkDownFile, `\`\`\``);  
+    fileOutputHandler.appendOutput(pathToMarkDownFile, `\`\`\``);
+    fileOutputHandler.appendOutput(pathToMarkDownFile, `echo ${scratchOrg.sfdxAuthUrl} > ./authfile`);
+    fileOutputHandler.appendOutput(pathToMarkDownFile, `sf org login sfdx-url --sfdx-url-file=authfile`);
+    fileOutputHandler.appendOutput(pathToMarkDownFile, `sf org open --target-org=${scratchOrg.username}`);
+    fileOutputHandler.appendOutput(pathToMarkDownFile, `\`\`\``);
 
   }
 

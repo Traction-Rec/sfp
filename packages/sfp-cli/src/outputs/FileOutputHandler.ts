@@ -22,7 +22,7 @@ export default class FileOutputHandler {
       fs.createFileSync(path.join(this.containerFolder, fileName));
     }
     fs.writeFileSync(path.join(this.containerFolder, fileName), output);
-  };
+  }
 
   public appendOutput(fileName: string,output: string) {
     if (!fs.existsSync(path.join(this.containerFolder, fileName))) {
@@ -30,6 +30,12 @@ export default class FileOutputHandler {
     }
     fs.appendFileSync(path.join(this.containerFolder, fileName), EOL);
     fs.appendFileSync(path.join(this.containerFolder, fileName), output);
+  }
+
+  public deleteOutputFile(fileName: string) {
+    if (fs.existsSync(path.join(this.containerFolder, fileName))) {
+      fs.unlinkSync(path.join(this.containerFolder, fileName));
+    }
   }
 
 }

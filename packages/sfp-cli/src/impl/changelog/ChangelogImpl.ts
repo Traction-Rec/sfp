@@ -9,7 +9,7 @@ const TerminalRenderer = require('marked-terminal');
 const retry = require('async-retry');
 import { GitError } from 'simple-git';
 import SfpPackage from '../../core/package/SfpPackage';
-import SFPLogger, { LoggerLevel, ConsoleLogger, Logger } from '@flxblio/sfp-logger';
+import SFPLogger, { LoggerLevel, ConsoleLogger, Logger } from '@flxbl-io/sfp-logger';
 import SfpPackageBuilder from '../../core/package/SfpPackageBuilder';
 import Git from '../../core/git/Git';
 import FileOutputHandler from '../../outputs/FileOutputHandler';
@@ -35,6 +35,7 @@ export default class ChangelogImpl {
         private branch: string,
         private nopush:boolean,
         private isDryRun: boolean,
+        private releaseConfigName:string,
         private org?: string
     ) {
         this.org = org?.toLowerCase();
@@ -145,7 +146,10 @@ export default class ChangelogImpl {
             if(this.isDryRun)
             {
                 const outputHandler:FileOutputHandler = FileOutputHandler.getInstance();
-                outputHandler.writeOutput('release-changelog.md',marked(new ChangelogMarkdownGenerator(releaseChangelog, this.workItemUrl, 1, false,true).generate()));
+                if(this.releaseConfigName){
+                    outputHandler.appendOutput('release-changelog.md',`# ReleaseConfig: ${this.releaseConfigName}`);
+                }
+                outputHandler.appendOutput('release-changelog.md',new ChangelogMarkdownGenerator(releaseChangelog, this.workItemUrl, 1, false,false).generate());
             }
 
 
